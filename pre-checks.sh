@@ -83,16 +83,13 @@ fi
 
 git=$(type -p git)
 
-if [[ "$git" == "/usr/bin/git" ]] ; then
+if [[ "$git" == "/usr/bin/git" ]] || [[ "$git" == "/usr/local/bin/git" ]] ; then
 	echoMessage "Git is Installed"
 #        git_ver=$(git --version | cut -d' ' -f3)
 #        echo "Installed version is $git_ver"
 else
-        echoMessage "Git is not Present. Installing latest version."
-        sudo add-apt-repository ppa:git-core/ppa -y
-        sudo apt-get update
-        sudo apt-get install git -y
-	echoSuccess "Git Installed."
+        echoError "Git is not installed. Execute upgrade-git.sh first."
+	exit 1
 fi
 
 git_version=$(git version | awk '{ print $3 }')
@@ -115,9 +112,6 @@ fi
 
 if [[ "$git_flag" -eq 1 ]] ;then
 
-        echoMessage "Upgrading git to latest version."
-        sudo add-apt-repository ppa:git-core/ppa -y
-        sudo apt-get update
-        sudo apt-get install git -y
-	echoSuccess "Latest version of Git is Installed."
+        echoError "Upgrade git to latest Supported version. Execute upgrade-git.sh first"
+        exit 1
 fi
